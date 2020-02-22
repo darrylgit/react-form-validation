@@ -4,13 +4,15 @@ import BasicInfo from './BasicInfo';
 import ActivitiesInfo from "./ActivitiesInfo";
 import PayInfo from "./PayInfo";
 import ShirtInfo from "./ShirtInfo";
+import SubmitButton from './SubmitButton';
+import { useForm } from 'react-hook-form';
+
 
 export default function App() {
-  let [basicInfoRole, setBasicInfoRole] = useState([]); //able to record shirt val
 
-  let [selectedShirt, setSelectedShirt] = useState([]); //able to record shirt val
-  let [selectedDesign, setSelectedDesign] = useState([]); //👌🏽
-  let [selectedColor, setSelectedColor] = useState([]); //👌🏽
+  // const {ref, handleSubmit} = useForm();
+
+  const onSubmit = data => console.log(data);
 
   return (
     <div className="container">
@@ -18,27 +20,21 @@ export default function App() {
         <span>Register for</span><h1>Full Stack Conf</h1>
       </header>
 
-      <form action="index.html" method="post">
+      <form onSubmit={(e) => {e.preventDefault()}} 
+        action="index.html" method="post"
+      >
         <fieldset>
           {/* basic info section */}
           <BasicInfo 
-            setBasicInfoRole={setBasicInfoRole}
           />
-          {console.log(basicInfoRole)}
-
           {/* t-shirt info */}
-          <ShirtInfo 
-            setSelectedShirt={setSelectedShirt}
-            setSelectedDesign={setSelectedDesign}
-            setSelectedColor={setSelectedColor}
-          />
-
+          <ShirtInfo />
           {/* activities / workshops */}
           <ActivitiesInfo />
-
           {/* pay info */}
           <PayInfo />
-
+          {/* hide until everything is filled */}
+          <SubmitButton />
         </fieldset>
       </form>
     </div>

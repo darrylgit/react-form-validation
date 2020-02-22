@@ -1,19 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-export default function ShirtInfo({ setSelectedShirt, setSelectedDesign, setSelectedColor }) {
+export default function ShirtInfo({ }) {
     const shirtSizes = ["Small", "Medium", "Large", "X-Large"];
 
-    let selectShirt = (e) => {
-        setSelectedShirt(e.target.value);
-    }
-
-    let selectDesign = (e) => {
-        return e.target.value ? setSelectedDesign(e.target.value) : "";
-    }
-
-    let selectColor = (e) => {
-        setSelectedColor(e.target.value);
-    }
+    let [selectedShirt, setSelectedShirt] = useState();
+    let [selectedDesign, setSelectedDesign] = useState();
+    let [selectedColor, setSelectedColor] = useState();
 
     return (
         <fieldset className="shirt">
@@ -21,7 +13,7 @@ export default function ShirtInfo({ setSelectedShirt, setSelectedDesign, setSele
 
             <div>
                 <label htmlFor="size">Size:</label>
-                <select onChange={(e) => {selectShirt(e)}} id="size" name="user_size">
+                <select onChange={(e) => {setSelectedShirt(e.target.value)}} id="size" name="user_size">
                     {/* create option based off each value in array */}
                     {shirtSizes.map(shirt => (
                         <option key={shirt} value={shirt}>
@@ -33,7 +25,7 @@ export default function ShirtInfo({ setSelectedShirt, setSelectedDesign, setSele
 
             <div className="design">
                 <label htmlFor="design">Design:</label>
-                <select onChange={(e) => { selectDesign(e) }} id="design" name="user_design">
+                <select onChange={(e) => { setSelectedDesign(e.target.value) }} id="design" name="user_design">
                     <option>Select Theme</option>
                     <option value="js puns">Theme - JS Puns</option>
                     <option value="heart js">Theme - I &#9829; JS</option>
@@ -42,7 +34,7 @@ export default function ShirtInfo({ setSelectedShirt, setSelectedDesign, setSele
 
             <div id="colors-js-puns" className="color">
                 <label htmlFor="color">Color:</label>
-                <select onChange={(e) => { selectColor(e) }} id="color">
+                <select onChange={(e) => { setSelectedColor(e.target.value) }} id="color">
                     <option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>
                     <option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option>
                     <option value="gold">Gold (JS Puns shirt only)</option>

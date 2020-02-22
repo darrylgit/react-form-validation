@@ -1,24 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react';
 
-export default function BasicInfo({ setBasicInfoRole }) {
-    const setRole = (e) => {
-        setBasicInfoRole(e.target.value);
-    }
+export default function BasicInfo({ ref }) {
+    let [name, setName] = useState();
+    let [email, setEmail] = useState();
+    let [jobRole, setJobRole] = useState([]);
 
     return (
         <>
             <legend>Basic Info</legend>
 
-            <label htmlFor="named">Full Name:</label>
-            <input type="text" id="named" name="name" autoFocus />
-            <span>Name cannot be blank</span>
+            <label htmlFor="named">Full Name: *</label>
+            <input ref={ref} onChange={(e) => setName(e.target.value)} type="text" id="named" name="name" autoFocus required/>
 
-            <label htmlFor="email">Email:</label>
-            <input type="email" id="email" name="email" />
-            <span>Must enter valid email address</span>
+            <label htmlFor="email">Email: *</label>
+            <input onChange={(e) => setEmail(e.target.value)} ref={ref} type="email" id="email" name="email" required/>
 
             <label htmlFor="title">Job Role</label>
-            <select onChange={(e) => setRole(e)} id="title" name="title">
+            <select ref={ref} onChange={(e) => setJobRole(e.target.value)} id="title" name="title" >
                 <option value="full-stack js developer">Full Stack JavaScript Developer</option>
                 <option value="front-end developer">Front End Developer</option>
                 <option value="back-end developer">Back End Developer</option>
@@ -27,8 +25,15 @@ export default function BasicInfo({ setBasicInfoRole }) {
                 <option value="other">Other</option>
             </select>
             <br />
-            <input id='other-title' type='text' placeholder="Your Job Role" />
-            <textarea />
+            {jobRole === "other" 
+            ? (
+                <>
+                    {/* <input ref={ref} id='other-title' type='text' placeholder="Your Job Role" required/> */}
+                    <textarea ref={ref} id='other-title' type='text' placeholder="Your Job Role" required></textarea>
+                </>
+            )
+            : ("")}
+            
         </>
     )
 }
