@@ -25,7 +25,7 @@ export default function ShirtInfo({ }) {
 
             <div className="design">
                 <label htmlFor="design">Design:</label>
-                <select onChange={(e) => { setSelectedDesign(e.target.value) }} id="design" name="user_design">
+                <select onChange={(e) => { setSelectedDesign(e.target.value) }} id="design" name="user_design" required>
                     <option>Select Theme</option>
                     <option value="js puns">Theme - JS Puns</option>
                     <option value="heart js">Theme - I &#9829; JS</option>
