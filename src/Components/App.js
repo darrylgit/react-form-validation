@@ -12,6 +12,8 @@ export default function App() {
 
   // const {ref, handleSubmit} = useForm();
 
+  let [payInfoComplete, setPayInfoComplete] = useState(false); // will be used to allow user to submit 
+
   const onSubmit = data => console.log(data);
 
   return (
@@ -32,9 +34,9 @@ export default function App() {
           {/* activities / workshops */}
           <ActivitiesInfo />
           {/* pay info */}
-          <PayInfo />
+          <PayInfo setPayInfoComplete={setPayInfoComplete}/>
           {/* hide until everything is filled */}
-          <SubmitButton />
+          {payInfoComplete ? (<SubmitButton />) : ("")}
         </fieldset>
       </form>
     </div>
