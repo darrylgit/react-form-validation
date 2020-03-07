@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import '../styles/App.css';
 import BasicInfo from './BasicInfo';
 import ActivitiesInfo from "./ActivitiesInfo";
@@ -7,12 +7,30 @@ import ShirtInfo from "./ShirtInfo";
 import SubmitButton from './SubmitButton';
 import { useForm } from 'react-hook-form';
 
-
 export default function App() {
+  // state to handle steps in form
+  let [step, setStep] = useState(1);
 
-  // const {ref, handleSubmit} = useForm();
+  // state for form fields
+  let [name, setName] = useState();
+  let [email, setEmail] = useState();
+  let [jobRole, setJobRole] = useState([]);
+  let [selectedShirt, setSelectedShirt] = useState();
+  let [selectedDesign, setSelectedDesign] = useState();
+  let [selectedColor, setSelectedColor] = useState();
+  let [total, setTotal] = useState(0);
+  let [selectedActivity, setSelectedActivity] = useState();
+  let [selectedPayMethod, setSelectedPayMethod] = useState("cc");
+  let [validCC, setValidCC] = useState([]);
+  let [allFieldsAreGood, safg] = useState(false);
 
-  let [payInfoComplete, setPayInfoComplete] = useState(false); // will be used to allow user to submit 
+  const nextStep = () => {
+    setStep(step + 1);
+  }
+
+  const prevStep = () => {
+    setStep(step - 1);
+  }
 
   const onSubmit = data => console.log(data);
 
@@ -22,21 +40,52 @@ export default function App() {
         <span>Register for</span><h1>Full Stack Conf</h1>
       </header>
 
-      <form onSubmit={(e) => {e.preventDefault()}} 
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit(e); 
+      }} 
         action="index.html" method="post"
       >
         <fieldset>
           {/* basic info section */}
-          <BasicInfo 
-          />
+          {step === 1 && <BasicInfo 
+            nextStep={nextStep}
+            name={name}
+            setName={setName}
+            email={email}
+            setEmail={setEmail}
+            jobRole={jobRole}
+            setJobRole={setJobRole}
+          />}
           {/* t-shirt info */}
-          <ShirtInfo />
+          {step === 2 && <ShirtInfo 
+            nextStep={nextStep}
+            prevStep={prevStep}
+            selectedShirt={selectedShirt}
+            setSelectedShirt={setSelectedShirt}
+            selectedDesign={selectedDesign}
+            setSelectedDesign={setSelectedDesign}
+            selectedColor={selectedColor}
+            setSelectedColor={setSelectedColor}
+          />}
           {/* activities / workshops */}
-          <ActivitiesInfo />
+          {step === 3 && <ActivitiesInfo 
+            nextStep={nextStep}
+            prevStep={prevStep}
+          />}
           {/* pay info */}
-          <PayInfo setPayInfoComplete={setPayInfoComplete}/>
+          {step === 4 && <PayInfo 
+            nextStep={nextStep}
+            prevStep={prevStep}
+            selectedPayMethod={selectedPayMethod}
+            setSelectedPayMethod={setSelectedPayMethod}
+            validCC={validCC}
+            setValidCC={setValidCC}
+            allFieldsAreGood={allFieldsAreGood}
+            safg={safg}
+          />}
           {/* hide until everything is filled */}
-          {payInfoComplete ? (<SubmitButton />) : ("")}
+          {step === 5 && <SubmitButton />}
         </fieldset>
       </form>
     </div>

@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 
-export default function ActivitiesInfo() {
+export default function ActivitiesInfo({ 
+    nextStep, prevStep
+}) {
 
     let [total, setTotal] = useState(0);
 
@@ -69,12 +71,14 @@ export default function ActivitiesInfo() {
                     {cb.body}{cb.time}, ${cb.price} 
                 </label>
             ))}
-            {total !== 0 
-                ? (<span>Total = {total} </span>)
-                : ("")
+            {total !== 0 &&
+                <span>Total = {total} </span>
             }
             <br />
             <span>Must select at least one option</span>
+
+            <button onClick={prevStep}>Back</button>
+            <button onClick={nextStep}>Next</button>
         </fieldset>
     )
 }

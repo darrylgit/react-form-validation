@@ -1,8 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 
-export default function PayInfo({ setPayInfoComplete }) {
-    let [selectedPayMethod, setSelectedPayMethod] = useState("cc");
-    let [validCC, setValidCC] = useState({cc: null, zip: null, ccv: null, year: null});
+export default function PayInfo({ 
+    nextStep, prevStep, selectedPayMethod, 
+    setSelectedPayMethod, validCC, setValidCC, 
+    allFieldsAreGood, safg
+}) {
+    useEffect(() => {
+        setValidCC({ cc: null, zip: null, ccv: null, year: null });
+    }, []);
 
     function isValidCC(number) {
         let valid = /^\d{13,16}$/.test(number);
@@ -24,18 +29,15 @@ export default function PayInfo({ setPayInfoComplete }) {
 
     function isValidCardYear(value) {
         let currentYear = new Date().getFullYear();
+
+        validCC ? safg(true) : safg(false);
+        console.log(allFieldsAreGood);
+
         return (value < currentYear || value === "Select a year") 
             ? setValidCC({ year: false })
             : setValidCC({ year: true });
     };
 
-    let paymentMethodIsGoodToGo = 
-        validCC.cc === true 
-        && validCC.zip === true
-        && validCC.ccv === true
-        && validCC.year === true;
-    //should be updated when whole section is complete
-  
     return (
         <fieldset className="pay-info">
             <legend>Payment Info</legend>
@@ -46,86 +48,69 @@ export default function PayInfo({ setPayInfoComplete }) {
                 <option value="bitcoin">Bitcoin</option>
             </select>
 
-            {(selectedPayMethod !== "paypal" || selectedPayMethod !== "bitcoin") && selectedPayMethod === "cc"
-                ? (
-                    <>
-                        <div id="credit-card" className="credit-card">
-                            <div className="col-6 col">
-                                <label htmlFor="cc-num">Card Number:</label>
-                                <input onBlur={(e) => isValidCC(e.target.value)} id="cc-num" name="user_cc-num" type="text" required/>
-                                {validCC.cc === false && validCC.cc !== "" ? (<span> Must be 13-16 digits </span>) : ("")}
-                            </div>
-
-                            <div className="col-3 col">
-                                <label htmlFor="zip">Zip Code:</label>
-                                <input id="zip" name="user_zip" type="text" onBlur={(e) => { isValidZip(e.target.value) }} required/>
-                                {validCC.zip === false && validCC.zip !== "" ? (<span> 5 digits </span>) : ("")}
-                            </div>
-
-                            <div className="col-3 col">
-                                <label htmlFor="cvv">CVV:</label>
-                                <input onBlur={(e) => { isValidCVC(e.target.value)}} id="cvv" name="user_cvv" type="text" required/>
-                                {validCC.ccv === false && validCC.ccv !== "" ? (<span> 3 digits </span>) : ("")}
-                            </div>
-
-                            <label htmlFor="exp-month">Expiration Date:</label>
-                            <select id="exp-month" name="user_exp-month">
-                                <option value="0">January</option>
-                                <option value="1">February</option>
-                                <option value="2">March</option>
-                                <option value="3">April</option>
-                                <option value="4">May</option>
-                                <option value="5">June</option>
-                                <option value="6">July</option>
-                                <option value="7">August</option>
-                                <option value="8">September</option>
-                                <option value="9">October</option>
-                                <option value="10">November</option>
-                                <option value="11">December</option>
-                            </select>
-
-                            <label htmlFor="exp-year">Expiration Year:</label>
-                            <select id="exp-year" name="user_exp-year" onChange={(e) => { isValidCardYear(e.target.value) }}>
-                                <option value="Select a year">Select a year</option>
-                                <option value="2019">2019</option>
-                                <option value="2020">2020</option>
-                                <option value="2021">2021</option>
-                                <option value="2022">2022</option>
-                                <option value="2023">2023</option>
-                            </select>
-                            {validCC.year === false ? (<span>Card Date is invalid</span>) : ("")}
+            {(selectedPayMethod !== "paypal" || selectedPayMethod !== "bitcoin") && selectedPayMethod === "cc" &&
+                <div id="credit-card" className="credit-card">
+                        <div className="col-6 col">
+                            <label htmlFor="cc-num">Card Number:</label>
+                            <input onBlur={(e) => isValidCC(e.target.value)} id="cc-num" name="user_cc-num" type="text" required/>
+                            {validCC.cc === false && validCC.cc !== "" && (<span> Must be 13-16 digits </span>)}
                         </div>
-                        {console.log(paymentMethodIsGoodToGo)}
-                        {paymentMethodIsGoodToGo ? setPayInfoComplete(true) : setPayInfoComplete(false)}
-                    </>
-                )
-                : ("")
+
+                        <div className="col-3 col">
+                            <label htmlFor="zip">Zip Code:</label>
+                            <input id="zip" name="user_zip" type="text" onBlur={(e) => { isValidZip(e.target.value) }} required/>
+                            {validCC.zip === false && validCC.zip !== "" && (<span> 5 digits </span>)}
+                        </div>
+
+                        <div className="col-3 col">
+                            <label htmlFor="cvv">CVV:</label>
+                            <input onBlur={(e) => { isValidCVC(e.target.value)}} id="cvv" name="user_cvv" type="text" required/>
+                            {validCC.ccv === false && validCC.ccv !== "" && (<span> 3 digits </span>)}
+                        </div>
+
+                        <label htmlFor="exp-month">Expiration Date:</label>
+                        <select id="exp-month" name="user_exp-month">
+                            <option value="0">January</option>
+                            <option value="1">February</option>
+                            <option value="2">March</option>
+                            <option value="3">April</option>
+                            <option value="4">May</option>
+                            <option value="5">June</option>
+                            <option value="6">July</option>
+                            <option value="7">August</option>
+                            <option value="8">September</option>
+                            <option value="9">October</option>
+                            <option value="10">November</option>
+                            <option value="11">December</option>
+                        </select>
+
+                        <label htmlFor="exp-year">Expiration Year:</label>
+                        <select id="exp-year" name="user_exp-year" onChange={(e) => { isValidCardYear(e.target.value) }}>
+                            <option value="Select a year">Select a year</option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                        </select>
+                        {validCC.year === false && (<span>Card Date is invalid</span>)}
+                    </div>
             }
 
-            {selectedPayMethod === "paypal"
-                ? (
-                    <>
-                        {setPayInfoComplete(true)}
-                        <div className="paypal">
-                            <p id='paypal'>If you selected the PayPal option we'll take you to Paypal's site to set up your billing information, when you click “Register” below.</p>
-                        </div>
-                    </>
-                )
-                : ("")
+            {selectedPayMethod === "paypal" &&
+                <div className="paypal">
+                        <p id='paypal'>If you selected the PayPal option we'll take you to Paypal's site to set up your billing information, when you click “Register” below.</p>
+                    </div>
             }
 
-            {selectedPayMethod === "bitcoin" 
-                ? (
-                    <>
-                        {setPayInfoComplete(true)}
-                        <div className="bitcoin">
-                            <p id='bitcoin'>If you selected the Bitcoin option we'll take you to the Coinbase site to set up your billing information. Due to the nature of exchanging Bitcoin, all Bitcoin transactions will be final.</p>
-                        </div>
-                    </>
-                )
-                : ("")
+            {selectedPayMethod === "bitcoin" &&
+                <div className="bitcoin">
+                        <p id='bitcoin'>If you selected the Bitcoin option we'll take you to the Coinbase site to set up your billing information. Due to the nature of exchanging Bitcoin, all Bitcoin transactions will be final.</p>
+                    </div>
             }
 
+            <button onClick={prevStep}>Back</button>
+            <button onClick={nextStep}>Next</button>
         </fieldset>
     )
 }
