@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 export default function ActivitiesInfo({ 
-    nextStep, prevStep
+    nextStep, prevStep, total, 
+    handleChange, handlePrice
 }) {
-
-    let [total, setTotal] = useState(0);
-
     const checkboxes = [
         {
             name: "all",
@@ -49,10 +47,6 @@ export default function ActivitiesInfo({
             time: "Wednesday 1pm - 4pm",
         },
     ]
-
-    const handlePrice = (e, price) => {
-        e.target.checked ? setTotal(total += price) : setTotal(total -= price);
-    }
 
     return (
         <fieldset className="activities">
