@@ -115,8 +115,8 @@ export default class App extends Component {
     name: "",
     email: "",
     jobRole: "full-stack js developer",
-    selectedShirt: [],
-    selectedDesign: [],
+    selectedShirt: "",
+    selectedDesign: "",
     selectedColor: "cornFlowerBlue",
     total: 0,
     selectedActivity: [],
@@ -125,6 +125,9 @@ export default class App extends Component {
     validZip: null,
     validCCV: null,
     validYear: null,
+    ccNum: "",
+    ccZip: "",
+    ccv: "",
 
   }
 
@@ -177,7 +180,8 @@ export default class App extends Component {
       selectedShirt, selectedDesign, selectedColor,
       total, selectedActivity, selectedPayMethod,
       validationErrors, validCC, validZip,
-      validCCV, validYear
+      validCCV, validYear, ccNum,
+      ccZip, ccv,
     } = this.state;
 
     return (
@@ -244,6 +248,9 @@ export default class App extends Component {
               setValidCCV={this.setValidCCV}
               setValidZip={this.setValidZip}
               setValidYear={this.setValidYear}
+              ccNum={ccNum}
+              ccZip={ccZip}
+              ccv={ccv}
             />}
             {/* hide until everything is filled */}
             {step === 5 && <SubmitButton />}

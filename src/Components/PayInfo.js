@@ -5,7 +5,8 @@ export default function PayInfo({
     setSelectedPayMethod, validCC, 
     validZip, validCCV, validYear,
     setValidCC, handleChange, setValidCCV,
-    setValidZip, setValidYear
+    setValidZip, setValidYear, ccNum,
+    ccZip, ccv,
 }) {
     console.log("pay info rendered");
 
@@ -26,7 +27,6 @@ export default function PayInfo({
 
     function isValidCardYear(value) {
         let currentYear = new Date().getFullYear();
-
         return (value < currentYear || value === "Select a year") 
             ? setValidYear(false)
             : setValidYear(true);
@@ -45,18 +45,22 @@ export default function PayInfo({
             {selectedPayMethod === "cc" &&
                 <div id="credit-card" className="credit-card">
                     <div className="col-6 col">
-                    <label htmlFor="cc-num">Card Number: {validCC === false && ("Must be 13-16 digits")}</label>
-                    <input onBlur={(e) => isValidCC(e.target.value)} id="cc-num" name="user_cc-num" type="text" required/>
+                        <label htmlFor="cc-num">Card Number: {validCC === false && ("Must be 13-16 digits")}</label>
+                        <input onBlur={(e) => isValidCC(e.target.value)} 
+                            onChange={handleChange("ccNum")}
+                            value={ccNum || ''} id="cc-num" name="user_cc-num" type="text" required />
                     </div>
 
                     <div className="col-3 col">
-                    <label htmlFor="zip">Zip Code: {validZip === false && ("5 digits")}</label>
-                        <input id="zip" name="user_zip" type="text" onBlur={(e) => { isValidZip(e.target.value) }} required/>
+                        <label htmlFor="zip">Zip Code: {validZip === false && ("5 digits")}</label>
+                        <input onChange={handleChange("ccZip")}
+                            value={ccZip || ''} id="zip" name="user_zip" type="text" onBlur={(e) => { isValidZip(e.target.value) }} required />
                     </div>
 
                     <div className="col-3 col">
-                    <label htmlFor="ccv">CVV: {validCCV === false && ("3 digits")}</label>
-                        <input onBlur={(e) => { isValidCCV(e.target.value)}} id="ccv" name="user_ccv" type="text" required/>
+                        <label htmlFor="ccv">CCV: {validCCV === false && ("3 digits")}</label>
+                        <input onChange={handleChange("ccv")}
+                            value={ccv || ''} onBlur={(e) => { isValidCCV(e.target.value)}} id="ccv" name="user_ccv" type="text" required />
                     </div>
 
                     <label htmlFor="exp-month">Expiration Date:</label>
