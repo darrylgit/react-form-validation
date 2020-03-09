@@ -109,7 +109,7 @@ import SubmitButton from './SubmitButton';
 
 export default class App extends Component {
   state = {
-    step: 4,
+    step: 1,
     validationErrors: false,
 
     name: "",

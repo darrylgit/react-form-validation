@@ -46,21 +46,26 @@ export default function PayInfo({
                 <div id="credit-card" className="credit-card">
                     <div className="col-6 col">
                         <label htmlFor="cc-num">Card Number: {validCC === false && ("Must be 13-16 digits")}</label>
-                        <input onBlur={(e) => isValidCC(e.target.value)} 
+                        <input 
+                            onBlur={(e) => isValidCC(e.target.value)} 
                             onChange={handleChange("ccNum")}
                             value={ccNum || ''} id="cc-num" name="user_cc-num" type="text" required />
                     </div>
 
                     <div className="col-3 col">
                         <label htmlFor="zip">Zip Code: {validZip === false && ("5 digits")}</label>
-                        <input onChange={handleChange("ccZip")}
-                            value={ccZip || ''} id="zip" name="user_zip" type="text" onBlur={(e) => { isValidZip(e.target.value) }} required />
+                        <input 
+                            onBlur={(e) => { isValidZip(e.target.value) }}
+                            onChange={handleChange("ccZip")}
+                            value={ccZip || ''} id="zip" name="user_zip" type="text" required />
                     </div>
 
                     <div className="col-3 col">
                         <label htmlFor="ccv">CCV: {validCCV === false && ("3 digits")}</label>
-                        <input onChange={handleChange("ccv")}
-                            value={ccv || ''} onBlur={(e) => { isValidCCV(e.target.value)}} id="ccv" name="user_ccv" type="text" required />
+                        <input 
+                            onBlur={(e) => { isValidCCV(e.target.value) }}
+                            onChange={handleChange("ccv")}
+                            value={ccv || ''} id="ccv" name="user_ccv" type="text" required />
                     </div>
 
                     <label htmlFor="exp-month">Expiration Date:</label>

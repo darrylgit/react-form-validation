@@ -13,9 +13,9 @@ button {
 }
 
 body {
-  font: 1em/1.5;
-  color: white;
-	background: linear-gradient(45deg, red, blue);
+	font: 1em/1.5;
+	color: white;
+	background: linear-gradient(45deg, red, rgb(89, 0, 255));
 }
 
 header {
@@ -38,7 +38,7 @@ a {
 
 form {
 	padding: .875em 1.875em 1.875em;
-	background: #85b5ca;
+	background: #84bff0;
 }
 
 fieldset,
