@@ -117,7 +117,7 @@ export default class App extends Component {
     jobRole: "full-stack js developer",
     selectedShirt: "Small",
     selectedDesign: "Select Theme",
-    selectedColor: "",
+    selectedColor: "Select a color",
     total: 0,
     selectedActivity: [],
     selectedPayMethod: "cc",

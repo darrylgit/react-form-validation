@@ -7,6 +7,9 @@ export default function ShirtInfo({
     const shirtSizes = ["Small", "Medium", "Large", "X-Large"];
     const jsPunsShirtColors = [
         {
+            color: "Select a color",
+        },
+        {
             color: "Cornflower Blue", 
         },
         {
@@ -17,6 +20,9 @@ export default function ShirtInfo({
         },
     ];
     const loveJsShirtColors = [
+        {
+            color: "Select a color",
+        },
         { 
             color: "Mint Green", 
         },
@@ -29,8 +35,11 @@ export default function ShirtInfo({
     ];
 
     useEffect(() => {
-        selectedDesign === "Select Theme" ? setValidationErrors(true) : setValidationErrors(false);
-    },[selectedDesign, setValidationErrors]);
+        if (selectedDesign === "Select Theme") setValidationErrors(true);
+        if (selectedDesign !== "Select Theme" && selectedColor === "Select a color") {
+            setValidationErrors(true);
+        } else setValidationErrors(false);
+    }, [selectedDesign, selectedColor, setValidationErrors]);
 
     return (
         <div className="shirt">
@@ -60,7 +69,7 @@ export default function ShirtInfo({
             {selectedDesign !== "Select Theme" &&
                 <div id="colors-js-puns" className="color">
                     <label htmlFor="color">Color:</label>
-                    <select onChange={handleChange("selectedColor")} value={selectedColor} id="color">
+                    <select className={validationErrors ? "error" : "none"} onChange={handleChange("selectedColor")} value={selectedColor} id="color">
                         {/* JS Puns shirt only */}
                         {selectedDesign === "Js Puns" && jsPunsShirtColors.map(color => (
                             <option key={color.color} value={color.color}>{color.color}</option>        
