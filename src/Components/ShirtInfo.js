@@ -1,13 +1,36 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export default function ShirtInfo({ 
     handleChange, nextStep, prevStep, selectedShirt, 
     selectedDesign, selectedColor, validationErrors, setValidationErrors,
 }) {
-    console.log("shirt info rendered");
-    // selectedDesign === "Select Theme" ? setValidationErrors(true) : setValidationErrors(false);
-
     const shirtSizes = ["Small", "Medium", "Large", "X-Large"];
+    const jsPunsShirtColors = [
+        {
+            color: "Cornflower Blue", 
+        },
+        {
+            color: "Dark Slate Grey",
+        },
+        {
+            color: "Gold"
+        },
+    ];
+    const loveJsShirtColors = [
+        { 
+            color: "Mint Green", 
+        },
+        {
+            color: "Steel Blue",
+        },
+        {
+            color: "Dim Grey"
+        },
+    ];
+
+    useEffect(() => {
+        selectedDesign === "Select Theme" ? setValidationErrors(true) : setValidationErrors(false);
+    },[selectedDesign, setValidationErrors]);
 
     return (
         <div className="shirt">
@@ -26,24 +49,31 @@ export default function ShirtInfo({
 
             <div className="design">
                 <label htmlFor="design">Design:</label>
-                <select onChange={handleChange("selectedDesign")} value={selectedDesign} id="design" name="user_design" required>
+                <select className={validationErrors ? "error" : "none"} onChange={handleChange("selectedDesign")} value={selectedDesign} id="design" name="user_design">
                     <option value="Select Theme">Select Theme</option>
                     <option value="Js Puns">Theme - JS Puns</option>
-                    <option value="I heart js">Theme - I &#9829; JS</option>
+                    <option value="I heart js">Theme - I 💙JS</option>
                 </select>
             </div>
+            {/* {validationErrors && <span>Select a design theme</span>} */}
 
-            <div id="colors-js-puns" className="color">
-                <label htmlFor="color">Color:</label>
-                <select onChange={handleChange("selectedColor")} value={selectedColor} id="color">
-                    <option value="cornFlowerBlue">Cornflower Blue (JS Puns shirt only)</option>
-                    <option value="darkSlateGrey">Dark Slate Grey (JS Puns shirt only)</option>
-                    <option value="gold">Gold (JS Puns shirt only)</option>
-                    <option value="tomato">Tomato (I &#9829; JS shirt only)</option>
-                    <option value="steelBlue">Steel Blue (I &#9829; JS shirt only)</option>
-                    <option value="dimGrey">Dim Grey (I &#9829; JS shirt only)</option>
-                </select>
-            </div>
+            {selectedDesign !== "Select Theme" &&
+                <div id="colors-js-puns" className="color">
+                    <label htmlFor="color">Color:</label>
+                    <select onChange={handleChange("selectedColor")} value={selectedColor} id="color">
+                        {/* JS Puns shirt only */}
+                        {selectedDesign === "Js Puns" && jsPunsShirtColors.map(color => (
+                            <option key={color.color} value={color.color}>{color.color}</option>        
+                        ))}
+                    
+                        {/* I 💙 JS shirt only */}
+                        {selectedDesign === "I heart js" && loveJsShirtColors.map(color => {
+                            return <option key={color.color} value={color.color}>{color.color}</option>
+                        })}
+                    
+                    </select>
+                </div>
+            }
 
             <button onClick={prevStep}>Back</button>
             <button onClick={!validationErrors ? nextStep : undefined}>Next</button>
