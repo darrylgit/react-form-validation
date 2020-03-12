@@ -2,9 +2,10 @@ import React from 'react'
 
 export default function ShirtInfo({ 
     handleChange, nextStep, prevStep, selectedShirt, 
-    selectedDesign, selectedColor, validationErrors,
+    selectedDesign, selectedColor, validationErrors, setValidationErrors,
 }) {
     console.log("shirt info rendered");
+    // selectedDesign === "Select Theme" ? setValidationErrors(true) : setValidationErrors(false);
 
     const shirtSizes = ["Small", "Medium", "Large", "X-Large"];
 
@@ -26,9 +27,9 @@ export default function ShirtInfo({
             <div className="design">
                 <label htmlFor="design">Design:</label>
                 <select onChange={handleChange("selectedDesign")} value={selectedDesign} id="design" name="user_design" required>
-                    <option>Select Theme</option>
-                    <option value="js puns">Theme - JS Puns</option>
-                    <option value="heart js">Theme - I &#9829; JS</option>
+                    <option value="Select Theme">Select Theme</option>
+                    <option value="Js Puns">Theme - JS Puns</option>
+                    <option value="I heart js">Theme - I &#9829; JS</option>
                 </select>
             </div>
 

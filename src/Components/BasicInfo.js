@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 export default function BasicInfo({ 
     nextStep, name, email, 
@@ -6,9 +6,11 @@ export default function BasicInfo({
     handleChange
 }) {
     function isValidEmail(email) {
-        const valid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(email);
+        const valid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(email) && email !== '';
         return valid;
     }
+
+    const emailHasErrors = (!isValidEmail(email) && email !== '') || !email;
 
     return (
         <div>
@@ -31,19 +33,15 @@ export default function BasicInfo({
 
             <label htmlFor="email">Email: *</label>
             <input 
+                className={validationErrors && emailHasErrors ? "error" : ""}
                 onChange={handleChange('email')} 
                 onBlur={(e) => {
                     !isValidEmail(e.target.value)
                         ? setValidationErrors(true)
                         : setValidationErrors(false)
                 }}
-                style={{
-                    border: (validationErrors && !isValidEmail(email) && email !== '')
-                     ? "red solid 1px" 
-                     : "none"
-                }}
                 value={email || ''} type="email" id="email" name="email" />
-            {(validationErrors && !isValidEmail(email) && email !== '') && <span>Enter valid email</span>}
+            {validationErrors && emailHasErrors && <span>Enter valid email</span>}
 
             <label htmlFor="jobRole">Job Role</label>
             <select onChange={handleChange('jobRole')} value={jobRole} id="jobRole" name="jobRole" >
@@ -60,7 +58,7 @@ export default function BasicInfo({
                 <textarea id='other-title' type='text' placeholder="Your Job Role" required></textarea>
             }
             
-            <button onClick={!validationErrors ? nextStep : undefined}>Next</button>
+            <button onClick={!validationErrors && name && !emailHasErrors ? nextStep : undefined}>Next</button>
         </div>
     )
 }
