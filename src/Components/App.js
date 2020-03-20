@@ -109,7 +109,7 @@ import SubmitButton from './SubmitButton';
 
 export default class App extends Component {
   state = {
-    step: 1,
+    step: 3,
     validationErrors: false,
 
     name: "",
@@ -119,7 +119,8 @@ export default class App extends Component {
     selectedDesign: "Select Theme",
     selectedColor: "Select a color",
     total: 0,
-    selectedActivity: [],
+    selectedActivity: '',
+    activitiesArray: [],
     selectedPayMethod: "cc",
     validCC: null,
     validZip: null,
@@ -150,6 +151,21 @@ export default class App extends Component {
     e.target.checked 
       ? this.setState({ total: total += price }) 
       : this.setState({ total: total -= price });
+  }
+
+  handleActivities = (e, time) => {
+    let { selectedActivity } = this.state;
+    time && e.target.checked &&
+    this.setState({
+      selectedActivity: time,
+    });
+  }
+
+  addActivities = () => {
+    this.setState( state => {
+      // const list = state.activitiesArray.push(state.selectedActivity);
+      return {activitiesArray:[...state.activitiesArray, state.selectedActivity]}
+    })
   }
 
   setValidCC = bool => {
@@ -225,6 +241,8 @@ export default class App extends Component {
             {step === 3 && <ActivitiesInfo
               handleChange={this.handleChange}
               handlePrice={this.handlePrice}
+              handleActivities={this.handleActivities}
+              addActivities={this.addActivities}
               validationErrors={validationErrors}
               selectedActivity={selectedActivity}
               total={total}

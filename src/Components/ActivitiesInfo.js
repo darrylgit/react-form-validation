@@ -2,7 +2,8 @@ import React from 'react'
 
 export default function ActivitiesInfo({ 
     nextStep, prevStep, total, 
-    handleChange, handlePrice
+    handleChange, handlePrice, handleActivities,
+    addActivities,
 }) {
     const checkboxes = [
         {
@@ -59,6 +60,8 @@ export default function ActivitiesInfo({
                         price={cb.price}
                         onChange={(e) => {
                             handlePrice(e, cb.price);
+                            handleActivities(e, cb.time);
+                            addActivities();
                             //handle disabling duplicate times
                         }}
                     /> 
