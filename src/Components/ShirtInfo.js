@@ -35,10 +35,10 @@ export default function ShirtInfo({
     ];
 
     useEffect(() => {
-        if (selectedDesign === "Select Theme") setValidationErrors(true);
-        if (selectedDesign !== "Select Theme" && selectedColor === "Select a color") {
-            setValidationErrors(true);
-        } else setValidationErrors(false);
+        (selectedDesign === "Select Theme" || 
+        (selectedDesign !== "Select Theme" && selectedColor === "Select a color")) 
+            ? setValidationErrors(true) 
+            : setValidationErrors(false);
     }, [selectedDesign, selectedColor, setValidationErrors]);
 
     return (
