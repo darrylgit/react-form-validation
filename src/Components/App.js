@@ -109,7 +109,7 @@ import SubmitButton from './SubmitButton';
 
 export default class App extends Component {
   state = {
-    step: 1,
+    step: 3,
     validationErrors: false,
 
     name: "",
@@ -153,7 +153,7 @@ export default class App extends Component {
       : this.setState({ total: total -= price });
   }
 
-  // add any checked items to the array and handle duplicates
+  // add/ remove any checked items to the array and handle duplicates
   handleActivities = (e, time) => {
     this.setState({ selectedActivity: time })
 
@@ -171,8 +171,7 @@ export default class App extends Component {
       this.setState({
         activitiesArray: [...activities],
       });
-    }
-    
+    } 
   }
 
   handleChange = input => e => {

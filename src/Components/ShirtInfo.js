@@ -49,7 +49,6 @@ export default function ShirtInfo({
             <div>
                 <label htmlFor="size">Size:</label>
                 <select onChange={handleChange("selectedShirt")} value={selectedShirt} id="size" name="user_size">
-                    {/* create option based off each value in array */}
                     {shirtSizes.map(shirt => (
                         <option key={shirt} value={shirt}>
                             {shirt}
