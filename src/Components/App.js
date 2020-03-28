@@ -11,7 +11,7 @@
 //   let [step, setStep] = useState(1);
 
 //   // handle validation errors
-//   let [validationErrors, setValidationErrors] = useState(false);
+//   let [validationErrors, setStateValidation] = useState(false);
 
 //   // state for form fields
 //   let [name, setName] = useState("");
@@ -51,7 +51,7 @@
 //           {/* basic info section */}
 //           {step === 1 && <BasicInfo 
 //             validationErrors={validationErrors}
-//             setValidationErrors={setValidationErrors}
+//             setStateValidation={setStateValidation}
 //             nextStep={nextStep}
 //             name={name}
 //             setName={setName}
@@ -63,7 +63,7 @@
 //           {/* t-shirt info */}
 //           {step === 2 && <ShirtInfo 
 //             validationErrors={validationErrors}
-//             setValidationErrors={setValidationErrors}
+//             setStateValidation={setStateValidation}
 //             nextStep={nextStep}
 //             prevStep={prevStep}
 //             selectedShirt={selectedShirt}
@@ -76,14 +76,14 @@
 //           {/* activities / workshops */}
 //           {step === 3 && <ActivitiesInfo 
 //             validationErrors={validationErrors}
-//             setValidationErrors={setValidationErrors}
+//             setStateValidation={setStateValidation}
 //             nextStep={nextStep}
 //             prevStep={prevStep}
 //           />}
 //           {/* pay info */}
 //           {step === 4 && <PayInfo 
 //             validationErrors={validationErrors}
-//             setValidationErrors={setValidationErrors}
+//             setStateValidation={setStateValidation}
 //             nextStep={nextStep}
 //             prevStep={prevStep}
 //             selectedPayMethod={selectedPayMethod}
@@ -109,7 +109,7 @@ import SubmitButton from './SubmitButton';
 
 export default class App extends Component {
   state = {
-    step: 3,
+    step: 1,
     validationErrors: false,
 
     name: "",
@@ -142,8 +142,8 @@ export default class App extends Component {
     this.setState({ step: step - 1 });
   }
 
-  setValidationErrors = (bool) => {
-    this.setState({validationErrors: bool})
+  setStateValidation = (input, bool) => {
+    this.setState({ [input]: bool });
   }
 
   handlePrice = (e, price) => {
@@ -175,22 +175,6 @@ export default class App extends Component {
     
   }
 
-  setValidCC = bool => {
-    this.setState({ validCC: bool })
-  }
-
-  setValidCCV = bool => {
-    this.setState({ validCCV: bool })
-  }
-
-  setValidZip = bool => {
-    this.setState({ validZip: bool })
-  }
-
-  setValidYear = bool => {
-    this.setState({ validYear: bool })
-  }
-
   handleChange = input => e => {
     this.setState({[input]: e.target.value})
   }
@@ -198,14 +182,7 @@ export default class App extends Component {
   onSubmit = data => console.log(data);
 
   render() {
-    let {
-      step, name, email, jobRole,
-      selectedShirt, selectedDesign, selectedColor,
-      total, selectedActivity, selectedPayMethod,
-      validationErrors, validCC, validZip,
-      validCCV, validYear, ccNum,
-      ccZip, ccv,
-    } = this.state;
+    let { step } = this.state;
 
     return (
       <div className="container">
@@ -220,61 +197,33 @@ export default class App extends Component {
           action="index.html" method="post"
         >
           <fieldset>
-            {/* basic info section */}
             {step === 1 && <BasicInfo
+              state={this.state}
               handleChange={this.handleChange}
-              validationErrors={validationErrors}
-              setValidationErrors={this.setValidationErrors}
+              setStateValidation={this.setStateValidation}
               nextStep={this.nextStep}
-              name={name}
-              setName={this.setName}
-              email={email}
-              setEmail={this.setEmail}
-              jobRole={jobRole}
-              setJobRole={this.setJobRole}
             />}
-            {/* t-shirt info */}
             {step === 2 && <ShirtInfo
+              state={this.state}
               handleChange={this.handleChange}
-              validationErrors={validationErrors}
-              setValidationErrors={this.setValidationErrors}
+              setStateValidation={this.setStateValidation}
               nextStep={this.nextStep}
               prevStep={this.prevStep}
-              selectedShirt={selectedShirt}
-              selectedDesign={selectedDesign}
-              selectedColor={selectedColor}
             />}
-            {/* activities / workshops */}
             {step === 3 && <ActivitiesInfo
-              handleChange={this.handleChange}
+              state={this.state}
               handlePrice={this.handlePrice}
               handleActivities={this.handleActivities}
-              validationErrors={validationErrors}
-              selectedActivity={selectedActivity}
-              total={total}
-              setValidationErrors={this.setValidationErrors}
+              setStateValidation={this.setStateValidation}
               nextStep={this.nextStep}
               prevStep={this.prevStep}
             />}
-            {/* pay info */}
             {step === 4 && <PayInfo
+              state={this.state}
+              setStateValidation={this.setStateValidation}
               handleChange={this.handleChange}
-              validationErrors={validationErrors}
-              setValidationErrors={this.setValidationErrors}
               nextStep={this.nextStep}
               prevStep={this.prevStep}
-              selectedPayMethod={selectedPayMethod}
-              validCC={validCC}
-              validZip={validZip}
-              validCCV={validCCV}
-              validYear={validYear}
-              setValidCC={this.setValidCC}
-              setValidCCV={this.setValidCCV}
-              setValidZip={this.setValidZip}
-              setValidYear={this.setValidYear}
-              ccNum={ccNum}
-              ccZip={ccZip}
-              ccv={ccv}
             />}
             {/* hide until everything is filled */}
             {step === 5 && <SubmitButton />}

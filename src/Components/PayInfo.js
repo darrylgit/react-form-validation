@@ -1,35 +1,38 @@
 import React from 'react';
 
 export default function PayInfo({ 
-    nextStep, prevStep, selectedPayMethod, 
-    setSelectedPayMethod, validCC, 
-    validZip, validCCV, validYear,
-    setValidCC, handleChange, setValidCCV,
-    setValidZip, setValidYear, ccNum,
-    ccZip, ccv,
+    state, nextStep, prevStep, 
+    setStateValidation, handleChange, 
 }) {
     console.log("pay info rendered");
 
+    const { 
+        selectedPayMethod, validCC, validZip,
+        validCCV, validYear, ccNum,
+        ccZip, ccv
+    } = state;
+
     function isValidCC(number) {
         let valid = /^\d{13,16}$/.test(number);
-        return valid ? setValidCC(true) : setValidCC(false)
+        return valid ? setStateValidation('validCC', true) : setStateValidation('validCC',false)
     };
 
     function isValidZip(number) {
         let valid = /(^\d{5}$)/.test(number);
-        return valid ? setValidZip(true) : setValidZip(false)
+        return valid ? setStateValidation('validZip',true) : setStateValidation('validZip',false)
     };
 
     function isValidCCV(number) {
         let valid = /^\d{3}$/.test(number);
-        return valid ? setValidCCV(true) : setValidCCV(false)
+        return valid ? setStateValidation('validCCV',true) : setStateValidation('validCCV',false)
     };
 
     function isValidCardYear(value) {
         let currentYear = new Date().getFullYear();
-        return (value < currentYear || value === "Select a year") 
-            ? setValidYear(false)
-            : setValidYear(true);
+        return (value < currentYear || value === "Select a year")
+            ? setStateValidation('validYear',false)
+            : setStateValidation('validYear',true);
+        
     };
 
     return (

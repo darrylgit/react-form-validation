@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 
 export default function ShirtInfo({ 
-    handleChange, nextStep, prevStep, selectedShirt, 
-    selectedDesign, selectedColor, validationErrors, setValidationErrors,
+    handleChange, nextStep, prevStep, 
+    setStateValidation, state,
 }) {
     const shirtSizes = ["Small", "Medium", "Large", "X-Large"];
     const jsPunsShirtColors = [
@@ -33,13 +33,15 @@ export default function ShirtInfo({
             color: "Dim Grey"
         },
     ];
+    
+    let {selectedDesign, selectedShirt, selectedColor, validationErrors} = state;
 
     useEffect(() => {
         (selectedDesign === "Select Theme" || 
         (selectedDesign !== "Select Theme" && selectedColor === "Select a color")) 
-            ? setValidationErrors(true) 
-            : setValidationErrors(false);
-    }, [selectedDesign, selectedColor, setValidationErrors]);
+            ? setStateValidation('validationErrors',true) 
+            : setStateValidation('validationErrors',false);
+    }, [selectedDesign, selectedColor, setStateValidation]);
 
     return (
         <div className="shirt">

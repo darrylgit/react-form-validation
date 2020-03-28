@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
 
 export default function BasicInfo({ 
-    nextStep, name, email, 
-    jobRole, validationErrors, setValidationErrors, 
+    state, nextStep, setStateValidation, 
     handleChange
 }) {
+    const { name, email, jobRole, validationErrors } = state;
+    
     function isValidEmail(email) {
         const valid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(email) && email !== '';
         return valid;
@@ -21,8 +22,8 @@ export default function BasicInfo({
                 onChange={handleChange('name')} 
                 onBlur={(e) => {
                     e.target.value === '' 
-                        ? setValidationErrors(true) 
-                        : setValidationErrors(false)
+                        ? setStateValidation('validationErrors',true) 
+                        : setStateValidation('validationErrors',false)
                 }}
                 style={{
                     border: validationErrors && name === '' ? "red solid 1px" : "none"
@@ -37,8 +38,8 @@ export default function BasicInfo({
                 onChange={handleChange('email')} 
                 onBlur={(e) => {
                     !isValidEmail(e.target.value)
-                        ? setValidationErrors(true)
-                        : setValidationErrors(false)
+                        ? setStateValidation('validationErrors',true)
+                        : setStateValidation('validationErrors',false)
                 }}
                 value={email || ''} type="email" id="email" name="email" />
             {validationErrors && emailHasErrors && <span>Enter valid email</span>}

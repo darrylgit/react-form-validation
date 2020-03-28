@@ -1,9 +1,12 @@
 import React from 'react'
 
 export default function ActivitiesInfo({ 
-    nextStep, prevStep, total, 
-    handleChange, handlePrice, handleActivities,
+    state, nextStep, prevStep, 
+    handlePrice, handleActivities, setStateValidation,
 }) {
+
+    const { total } = state;
+
     const checkboxes = [
         {
             name: "all",
