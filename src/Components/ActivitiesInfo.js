@@ -3,13 +3,13 @@ import React from 'react'
 export default function ActivitiesInfo({ 
     nextStep, prevStep, total, 
     handleChange, handlePrice, handleActivities,
-    addActivities,
 }) {
     const checkboxes = [
         {
             name: "all",
             price: 200,
             body: "Main Conference",
+            time: "Main Conference",
         },
         {
             name: "js-frameworks",
@@ -52,16 +52,16 @@ export default function ActivitiesInfo({
     return (
         <fieldset className="activities">
             <legend>Register for Activities</legend> 
-            {checkboxes.map( cb => (
+            {checkboxes.map( (cb, index) => (
                 <label key={cb.name}>
                     <input 
                         type="checkbox" 
                         name={cb.name}
                         price={cb.price}
+                        // disabled={true}
                         onChange={(e) => {
                             handlePrice(e, cb.price);
                             handleActivities(e, cb.time);
-                            addActivities();
                             //handle disabling duplicate times
                         }}
                     /> 

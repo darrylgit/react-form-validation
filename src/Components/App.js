@@ -153,19 +153,26 @@ export default class App extends Component {
       : this.setState({ total: total -= price });
   }
 
+  // add any checked items to the array and handle duplicates
   handleActivities = (e, time) => {
-    let { selectedActivity } = this.state;
-    time && e.target.checked &&
-    this.setState({
-      selectedActivity: time,
-    });
-  }
+    this.setState({ selectedActivity: time })
 
-  addActivities = () => {
-    this.setState( state => {
-      // const list = state.activitiesArray.push(state.selectedActivity);
-      return {activitiesArray:[...state.activitiesArray, state.selectedActivity]}
-    })
+    if (e.target.checked) {
+      this.setState(state => {
+        if (!state.activitiesArray.includes(state.selectedActivity)) {
+          return { activitiesArray: [...state.activitiesArray, state.selectedActivity] }
+        }
+      })
+    } else {
+      let activities = this.state.activitiesArray.filter(activity => {
+        return time !== activity;
+      });
+
+      this.setState({
+        activitiesArray: [...activities],
+      });
+    }
+    
   }
 
   setValidCC = bool => {
@@ -242,7 +249,6 @@ export default class App extends Component {
               handleChange={this.handleChange}
               handlePrice={this.handlePrice}
               handleActivities={this.handleActivities}
-              addActivities={this.addActivities}
               validationErrors={validationErrors}
               selectedActivity={selectedActivity}
               total={total}
