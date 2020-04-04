@@ -119,7 +119,7 @@ export default class App extends Component {
     selectedDesign: "Select Theme",
     selectedColor: "Select a color",
     total: 0,
-    selectedActivity: '',
+    selectedActivity: {},
     activitiesArray: [],
     selectedPayMethod: "cc",
     validCC: null,
@@ -154,8 +154,8 @@ export default class App extends Component {
   }
 
   // add/ remove any checked items to the array and handle duplicates
-  handleActivities = (e, time) => {
-    this.setState({ selectedActivity: time })
+  handleActivities = (e, cb) => {
+    this.setState({ selectedActivity: cb })
 
     if (e.target.checked) {
       this.setState(state => {
@@ -165,7 +165,7 @@ export default class App extends Component {
       })
     } else {
       let activities = this.state.activitiesArray.filter(activity => {
-        return time !== activity;
+        return cb.index !== activity.index;
       });
 
       this.setState({
