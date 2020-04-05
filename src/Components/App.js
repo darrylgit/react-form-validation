@@ -146,27 +146,6 @@ export default class App extends Component {
     this.setState({ [input]: bool });
   }
 
-  // add/ remove any checked items to the array and handle duplicates
-  handleActivities = (e, cb) => {
-    this.setState({ selectedActivity: cb })
-
-    if (e.target.checked) {
-      this.setState(state => {
-        if (!state.activitiesArray.includes(state.selectedActivity)) {
-          return { activitiesArray: [...state.activitiesArray, state.selectedActivity] }
-        }
-      })
-    } else {
-      let activities = this.state.activitiesArray.filter(activity => {
-        return cb.index !== activity.index;
-      });
-
-      this.setState({
-        activitiesArray: [...activities],
-      });
-    } 
-  }
-
   handleChange = input => e => {
     this.setState({[input]: e.target.value})
   }
@@ -203,7 +182,6 @@ export default class App extends Component {
               prevStep={this.prevStep}
             />}
             {step === 3 && <ActivitiesInfo
-              handleActivities={this.handleActivities}
               setStateValidation={this.setStateValidation}
               nextStep={this.nextStep}
               prevStep={this.prevStep}

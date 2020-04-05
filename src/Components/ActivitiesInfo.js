@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 
 export default function ActivitiesInfo({ 
     nextStep, prevStep, setStateValidation,
-    // handleActivities
 }) {
     const checkboxes = [
         {
@@ -72,9 +71,9 @@ export default function ActivitiesInfo({
         setSelectedActivity(cb);
 
         if (e.target.checked) {
-            // if (!activitiesArray.includes(selectedActivity)) {
-            setActivitiesArray([[...activitiesArray], selectedActivity])
-            // }
+            if (!activitiesArray.includes(selectedActivity)) {
+                setActivitiesArray([...activitiesArray, {...cb}])
+            }
         } else {
             const removeActivities = activitiesArray.filter(activity => {
                 return cb.name !== activity.name;
@@ -83,7 +82,7 @@ export default function ActivitiesInfo({
         }
     }
 
-
+    // value that gets pushed into disabledIndexes
     let indexToDisable;
     checkboxes.filter(cb => cb.time === selectedActivity.time)
         .filter(item => {
@@ -92,11 +91,11 @@ export default function ActivitiesInfo({
             }
         }
     );
-
+   
     const handleDisablingCheckboxes = (e) => {
+        // check bc the initial value of indexToDisable is undefined
         if (indexToDisable !== undefined) {
             let indexToRemove = disabledIndexes.filter(i => i !== indexToDisable)
-
             // TODO : Make sure the items are getting removed properly inside of useEffect instead of here
             // don't allow duplicates to get added
             e.target.checked
@@ -104,17 +103,16 @@ export default function ActivitiesInfo({
                 : setDisabledIndexes([...indexToRemove])
         }
     }
+
+    // use effect will only update when the value of indexToDisable changes.
     useEffect(() => {
         if (indexToDisable !== undefined) setDisabledIndexes(val => [...val, indexToDisable])
-        //causes infinite loop
-        // return () => setDisabledIndexes([...indexToRemove]) 
     }, [indexToDisable])
 
     console.log({ 
         "disabled indexes": disabledIndexes, 
         "current index": selectedActivity.index, 
         "indexToDisable": indexToDisable,
-        "is indexToDisable included?": disabledIndexes.includes(indexToDisable),
     });
 
     return (
