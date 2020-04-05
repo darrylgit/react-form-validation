@@ -203,6 +203,7 @@ export default class App extends Component {
               prevStep={this.prevStep}
             />}
             {step === 3 && <ActivitiesInfo
+              state={this.state}
               handleActivities={this.handleActivities}
               setStateValidation={this.setStateValidation}
               nextStep={this.nextStep}

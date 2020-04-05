@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 export default function ActivitiesInfo({ 
     nextStep, prevStep, setStateValidation,
-    // handleActivities
+    handleActivities, state
 }) {
     const checkboxes = [
         {
@@ -56,8 +56,6 @@ export default function ActivitiesInfo({
         },
     ]
 
-    let [selectedActivity, setSelectedActivity] = useState({});
-    let [activitiesArray, setActivitiesArray] = useState([]);
     let [total, setTotal] = useState(0);
     let [disabledIndexes, setDisabledIndexes] = useState([]);
 
@@ -67,27 +65,10 @@ export default function ActivitiesInfo({
             : setTotal(total -= price)
     }
 
-    // add/ remove any checked items to the array and handle duplicates
-    const handleActivities = (e, cb) => {
-        setSelectedActivity(cb);
-
-        if (e.target.checked) {
-            // if (!activitiesArray.includes(selectedActivity)) {
-            setActivitiesArray([[...activitiesArray], selectedActivity])
-            // }
-        } else {
-            const removeActivities = activitiesArray.filter(activity => {
-                return cb.name !== activity.name;
-            });
-            setActivitiesArray([...removeActivities]);
-        }
-    }
-
-
     let indexToDisable;
-    checkboxes.filter(cb => cb.time === selectedActivity.time)
+    checkboxes.filter(cb => cb.time === state.selectedActivity.time)
         .filter(item => {
-            if (item.index !== selectedActivity.index) {
+            if (item.index !== state.selectedActivity.index) {
                 indexToDisable = item.index;
             }
         }
@@ -112,7 +93,7 @@ export default function ActivitiesInfo({
 
     console.log({ 
         "disabled indexes": disabledIndexes, 
-        "current index": selectedActivity.index, 
+        "current index": state.selectedActivity.index, 
         "indexToDisable": indexToDisable,
         "is indexToDisable included?": disabledIndexes.includes(indexToDisable),
     });
