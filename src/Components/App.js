@@ -146,13 +146,6 @@ export default class App extends Component {
     this.setState({ [input]: bool });
   }
 
-  handlePrice = (e, price) => {
-    let { total } = this.state;
-    e.target.checked 
-      ? this.setState({ total: total += price }) 
-      : this.setState({ total: total -= price });
-  }
-
   // add/ remove any checked items to the array and handle duplicates
   handleActivities = (e, cb) => {
     this.setState({ selectedActivity: cb })
@@ -210,8 +203,6 @@ export default class App extends Component {
               prevStep={this.prevStep}
             />}
             {step === 3 && <ActivitiesInfo
-              state={this.state}
-              handlePrice={this.handlePrice}
               handleActivities={this.handleActivities}
               setStateValidation={this.setStateValidation}
               nextStep={this.nextStep}
