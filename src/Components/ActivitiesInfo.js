@@ -61,8 +61,8 @@ export default function ActivitiesInfo({
 
     const handlePrice = (e, price) => {
         e.target.checked
-            ? setTotal(total += price)
-            : setTotal(total -= price)
+            ? setTotal(prevState => prevState += price)
+            : setTotal(prevState => prevState -= price)
     }
 
     let indexToDisable;
