@@ -70,16 +70,11 @@ export default function ActivitiesInfo({
     const handleActivities = (e, cb) => {
         setSelectedActivity(cb);
 
-        if (e.target.checked) {
-            if (!activitiesArray.includes(selectedActivity)) {
-                setActivitiesArray([...activitiesArray, {...cb}])
-            }
-        } else {
-            const removeActivities = activitiesArray.filter(activity => {
-                return cb.name !== activity.name;
-            });
-            setActivitiesArray([...removeActivities]);
-        }
+        const removeActivities = activitiesArray.filter(activity => cb.name !== activity.name);
+
+        e.target.checked
+            ? setActivitiesArray([...activitiesArray, {...cb}])
+            : setActivitiesArray([...removeActivities]);
     }
 
     // value that gets pushed into disabledIndexes
