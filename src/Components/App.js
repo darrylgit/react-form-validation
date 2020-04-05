@@ -43,13 +43,13 @@
 
 //       <form onSubmit={(e) => {
 //         e.preventDefault();
-//         onSubmit(e); 
-//       }} 
+//         onSubmit(e);
+//       }}
 //         action="index.html" method="post"
 //       >
 //         <fieldset>
 //           {/* basic info section */}
-//           {step === 1 && <BasicInfo 
+//           {step === 1 && <BasicInfo
 //             validationErrors={validationErrors}
 //             setStateValidation={setStateValidation}
 //             nextStep={nextStep}
@@ -61,7 +61,7 @@
 //             setJobRole={setJobRole}
 //           />}
 //           {/* t-shirt info */}
-//           {step === 2 && <ShirtInfo 
+//           {step === 2 && <ShirtInfo
 //             validationErrors={validationErrors}
 //             setStateValidation={setStateValidation}
 //             nextStep={nextStep}
@@ -74,14 +74,14 @@
 //             setSelectedColor={setSelectedColor}
 //           />}
 //           {/* activities / workshops */}
-//           {step === 3 && <ActivitiesInfo 
+//           {step === 3 && <ActivitiesInfo
 //             validationErrors={validationErrors}
 //             setStateValidation={setStateValidation}
 //             nextStep={nextStep}
 //             prevStep={prevStep}
 //           />}
 //           {/* pay info */}
-//           {step === 4 && <PayInfo 
+//           {step === 4 && <PayInfo
 //             validationErrors={validationErrors}
 //             setStateValidation={setStateValidation}
 //             nextStep={nextStep}
@@ -99,13 +99,13 @@
 //   );
 // }
 
-import React, { Component } from 'react';
-import '../styles/App.css';
-import BasicInfo from './BasicInfo';
+import React, { Component } from "react";
+import "../styles/App.css";
+import BasicInfo from "./BasicInfo";
 import ActivitiesInfo from "./ActivitiesInfo";
 import PayInfo from "./PayInfo";
 import ShirtInfo from "./ShirtInfo";
-import SubmitButton from './SubmitButton';
+import SubmitButton from "./SubmitButton";
 
 export default class App extends Component {
   state = {
@@ -129,33 +129,32 @@ export default class App extends Component {
     ccNum: "",
     ccZip: "",
     ccv: "",
-
-  }
+  };
 
   nextStep = () => {
     const { step } = this.state;
     this.setState({ step: step + 1 });
-  }
+  };
 
   prevStep = () => {
     const { step } = this.state;
     this.setState({ step: step - 1 });
-  }
+  };
 
   setStateValidation = (input, bool) => {
     this.setState({ [input]: bool });
-  }
+  };
 
   // add/ remove any checked items to the array and handle duplicates
   handleActivities = (e, cb) => {
-    this.setState({ selectedActivity: cb })
-
     if (e.target.checked) {
-      this.setState(state => {
-        if (!state.activitiesArray.includes(state.selectedActivity)) {
-          return { activitiesArray: [...state.activitiesArray, state.selectedActivity] }
+      this.setState((prevState, prevProps) => {
+        if (!prevState.activitiesArray.includes(cb)) {
+          return {
+            activitiesArray: [...prevState.activitiesArray, cb],
+          };
         }
-      })
+      });
     } else {
       let activities = this.state.activitiesArray.filter(activity => {
         return cb.index !== activity.index;
@@ -164,12 +163,12 @@ export default class App extends Component {
       this.setState({
         activitiesArray: [...activities],
       });
-    } 
-  }
+    }
+  };
 
   handleChange = input => e => {
-    this.setState({[input]: e.target.value})
-  }
+    this.setState({ [input]: e.target.value });
+  };
 
   onSubmit = data => console.log(data);
 
@@ -179,43 +178,54 @@ export default class App extends Component {
     return (
       <div className="container">
         <header>
-          <span>Register for</span><h1>Full Stack Conf</h1>
+          <span>Register for</span>
+          <h1>Full Stack Conf</h1>
         </header>
 
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          this.onSubmit(e);
-        }}
-          action="index.html" method="post"
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            this.onSubmit(e);
+          }}
+          action="index.html"
+          method="post"
         >
           <fieldset>
-            {step === 1 && <BasicInfo
-              state={this.state}
-              handleChange={this.handleChange}
-              setStateValidation={this.setStateValidation}
-              nextStep={this.nextStep}
-            />}
-            {step === 2 && <ShirtInfo
-              state={this.state}
-              handleChange={this.handleChange}
-              setStateValidation={this.setStateValidation}
-              nextStep={this.nextStep}
-              prevStep={this.prevStep}
-            />}
-            {step === 3 && <ActivitiesInfo
-              state={this.state}
-              handleActivities={this.handleActivities}
-              setStateValidation={this.setStateValidation}
-              nextStep={this.nextStep}
-              prevStep={this.prevStep}
-            />}
-            {step === 4 && <PayInfo
-              state={this.state}
-              setStateValidation={this.setStateValidation}
-              handleChange={this.handleChange}
-              nextStep={this.nextStep}
-              prevStep={this.prevStep}
-            />}
+            {step === 1 && (
+              <BasicInfo
+                state={this.state}
+                handleChange={this.handleChange}
+                setStateValidation={this.setStateValidation}
+                nextStep={this.nextStep}
+              />
+            )}
+            {step === 2 && (
+              <ShirtInfo
+                state={this.state}
+                handleChange={this.handleChange}
+                setStateValidation={this.setStateValidation}
+                nextStep={this.nextStep}
+                prevStep={this.prevStep}
+              />
+            )}
+            {step === 3 && (
+              <ActivitiesInfo
+                state={this.state}
+                handleActivities={this.handleActivities}
+                setStateValidation={this.setStateValidation}
+                nextStep={this.nextStep}
+                prevStep={this.prevStep}
+              />
+            )}
+            {step === 4 && (
+              <PayInfo
+                state={this.state}
+                setStateValidation={this.setStateValidation}
+                handleChange={this.handleChange}
+                nextStep={this.nextStep}
+                prevStep={this.prevStep}
+              />
+            )}
             {/* hide until everything is filled */}
             {step === 5 && <SubmitButton />}
           </fieldset>
